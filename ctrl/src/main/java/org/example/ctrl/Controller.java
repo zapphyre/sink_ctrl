@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class Controller {
@@ -16,6 +18,11 @@ public class Controller {
 
     @GetMapping(value = "get_stream", produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<String> getMeAstream() {
-        return streamServrice.stream(cmd);
+//        return streamServrice.stream(cmd);
+        return Flux.fromIterable(List.of(
+                "qwer", "Qwr", "asdf", "zxcv",
+                "qwer", "Qwr", "asdf", "zxcv",
+                "qwer", "Qwr", "asdf", "zxcv"
+        ));
     }
 }
