@@ -1,4 +1,4 @@
-package org.example;
+package org.example.sink;
 
 import jakarta.websocket.Session;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,8 @@ public class StreamServrice {
                 .sendText(command);
         Flux flux = sink.asFlux();
 
-        flux.log()
-                .subscribe();
+//        flux.log()
+//                .subscribe();
 
         return flux;
     }

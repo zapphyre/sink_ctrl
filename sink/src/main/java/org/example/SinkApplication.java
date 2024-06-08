@@ -1,15 +1,15 @@
-package org.example.sink;
+package org.example;
 
 import jakarta.websocket.Session;
+import org.example.sink.WebSocket;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
 
 @SpringBootApplication
 public class SinkApplication {
-    final Sinks.Many<String> sink = Sinks.many().multicast().onBackpressureBuffer();
+    final Sinks.Many<String> sink = Sinks.many().multicast().directAllOrNothing();
 
     public static void main(String[] args) {
         SpringApplication.run(SinkApplication.class, args);

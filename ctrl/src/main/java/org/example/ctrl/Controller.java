@@ -1,6 +1,7 @@
-package org.example;
+package org.example.ctrl;
 
 import lombok.RequiredArgsConstructor;
+import org.example.sink.StreamServrice;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
