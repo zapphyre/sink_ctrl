@@ -5,9 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
+import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Slf4j
+@EnableWebFlux
 @SpringBootApplication
 public class ClientApplication {
 
@@ -16,19 +18,23 @@ public class ClientApplication {
     }
 
     @Bean
-    public WebClient.ResponseSpec request() {
-        WebClient.ResponseSpec spec = WebClient.create("http://localhost:8081/get_stream")
-                .get()
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve();
+    public WebClient client() {
+        return WebClient.create("http://localhost:8081/get_stream");
+    }
 
-        spec.bodyToFlux(String.class)
-                .log()
-                .subscribe(q -> log.info("{}", q));
+    @Bean
+    public Object request(WebClient client) {
+        new Thread(() -> {
+            client
+                    .get()
+                    .accept(MediaType.TEXT_EVENT_STREAM)
+                    .retrieve()
+                    .bodyToFlux(String.class)
+                    .log()
+                    .doOnNext(q -> log.info("{}", q))
+                    .subscribe();
+        }).run();
 
-//                .bodyToFlux(String.class)
-//                .log();
-
-        return spec;
+        return new Object();
     }
 }
